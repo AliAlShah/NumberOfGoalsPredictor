@@ -39,12 +39,16 @@ for i in data["Age"]:
 data["Age"] = int_list
     
 #Setting up train and test data
-predict = data["Goals"]
-x = np.array(data.drop([predict], 1))
-y = np.array(predict)
+y = data["Goals"]
+x = data.drop("Goals", axis=1)
 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1)
 
+#Making Model and Testing accuracy
+model = LinearRegression()
+model.fit(x_train, y_train)
 
+acc = model.score(x_test, y_test)
+print(acc)
 
 print(data.info())
