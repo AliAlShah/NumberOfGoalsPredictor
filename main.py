@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
 
 #Loading Data
 data = pd.read_csv("data.csv")
@@ -26,7 +27,6 @@ def clean_data(*field):
         make_it_happen(i)
 
 
-
 clean_data("Club", "Position", "Nationality")
 int_list = []
 for i in data["Jersey Number"]:
@@ -38,6 +38,13 @@ for i in data["Age"]:
     int_list.append(int(i))
 data["Age"] = int_list
     
+#Setting up train and test data
+predict = data["Goals"]
+x = np.array(data.drop([predict], 1))
+y = np.array(predict)
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1)
+
 
 
 print(data.info())
