@@ -60,7 +60,7 @@ print(acc)
 n = 0
 high_score = 0
 high_score_history = []
-while n<10000:
+while n<50000:
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=random.uniform(0.05, 0.5))
     model = LinearRegression()
     model.fit(x_train, y_train)
@@ -73,7 +73,7 @@ while n<10000:
                 pickle.dump(model, f)
 
     print(f"Accuracy: {high_score}")
-    print(f"Iteration: {(n/10000) * 100}%")
+    print(f"Iteration: {(n/50000) * 100}%")
     n = n + 1
 print(high_score_history)
 
