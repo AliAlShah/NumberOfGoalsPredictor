@@ -24,7 +24,7 @@ def clean_data(*field):
         for m in data[x]:
             new_list.append(unique_index_dict.get(m))
         data[x] = new_list
-        print(unique_index_dict)
+       # print(unique_index_dict)
 
     for i in field:
         make_it_happen(i)
@@ -54,33 +54,29 @@ model = LinearRegression()
 model.fit(x_train, y_train)
 
 acc = model.score(x_test, y_test)
+print(acc)
 
 #Training and saving model
-def train_save_model():
-    best = 0
-    best_history = []
-    y = 100
-    for iteriation in range(y):
-        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=random.uniform(0.05, 0.5))
+n = 0
+high_score = 0
+high_score_history = []
+while n<10000:
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=random.uniform(0.05, 0.5))
+    model = LinearRegression()
+    model.fit(x_train, y_train)
+    acc = model.score(x_test, y_test)
 
-        model = LinearRegression()
-        model.fit(x_train, y_train)
-
-        acc = model.score(x_test, y_test)
-
-        if acc > best:
-            best = acc
-            best_history.append(best)
-
-            with open("savedmodel.pickle", "wb") as f:
+    if acc > high_score:
+        high_score = acc
+        high_score_history.append(high_score)
+        with open("savedmodel.pickle", "wb") as f:
                 pickle.dump(model, f)
 
-        print(f"Completion: {(iteriation/y) * 100}%")
-        print(f"Best: {best}")
+    print(f"Accuracy: {high_score}")
+    print(f"Iteration: {(n/1000) * 100}%")
+    n = n + 1
+print(high_score_history)
 
-    print(f"History: {best_history}")
-
-    print(data.info())
 
 pickle_in = open("savedmodel.pickle", "rb")
 model = pickle.load(pickle_in)
