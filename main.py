@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import pickle
+import random
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 
@@ -22,9 +24,12 @@ def clean_data(*field):
         for m in data[x]:
             new_list.append(unique_index_dict.get(m))
         data[x] = new_list
+        print(unique_index_dict)
 
     for i in field:
         make_it_happen(i)
+
+    
 
 
 clean_data("Club", "Position", "Nationality")
@@ -49,6 +54,34 @@ model = LinearRegression()
 model.fit(x_train, y_train)
 
 acc = model.score(x_test, y_test)
-print(acc)
 
-print(data.info())
+#Training and saving model
+def train_save_model():
+    best = 0
+    best_history = []
+    y = 100
+    for iteriation in range(y):
+        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=random.uniform(0.05, 0.5))
+
+        model = LinearRegression()
+        model.fit(x_train, y_train)
+
+        acc = model.score(x_test, y_test)
+
+        if acc > best:
+            best = acc
+            best_history.append(best)
+
+            with open("savedmodel.pickle", "wb") as f:
+                pickle.dump(model, f)
+
+        print(f"Completion: {(iteriation/y) * 100}%")
+        print(f"Best: {best}")
+
+    print(f"History: {best_history}")
+
+    print(data.info())
+
+pickle_in = open("savedmodel.pickle", "rb")
+model = pickle.load(pickle_in)
+print(model.predict([[29, 4, 2, 0, 21, 25, 13, 9]]))
