@@ -73,7 +73,7 @@ while n<10000:
                 pickle.dump(model, f)
 
     print(f"Accuracy: {high_score}")
-    print(f"Iteration: {(n/1000) * 100}%")
+    print(f"Iteration: {(n/10000) * 100}%")
     n = n + 1
 print(high_score_history)
 
